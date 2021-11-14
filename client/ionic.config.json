@@ -1,0 +1,7 @@
+{
+  "name": "Restful Home",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
