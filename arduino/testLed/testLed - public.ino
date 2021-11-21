@@ -111,98 +111,169 @@ void setup(void) {
   // LED interface starts here
   server.on("/led", []() {
     // GET -> Read LED state
-    if (server.method() == HTTP_GET){
+    if (server.method() == HTTP_GET){      
       if (server.argName(0) == "id"){
-        if (server.arg(0) == "1"){
+        if (server.arg("id") == "1"){
           if (led1On){
-            server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'on'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"1\", \"state\": \"on\"}");
           }
           if (!led1On){
-            server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'off'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"1\", \"state\": \"off\"}");
           }
         }
-        if (server.arg(0) == "2"){
+        if (server.arg("id") == "2"){
           if (led2On){
-            server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'on'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"2\", \"state\": \"on\"}");
           }
           if (!led2On){
-            server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'off'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"2\", \"state\": \"off\"}");
           }
         }
-        if (server.arg(0) == "3"){
+        if (server.arg("id") == "3"){
           if (led3On){
-            server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'on'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"3\", \"state\": \"on\"}");
           }
           if (!led3On){
-            server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'off'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"3\", \"state\": \"off\"}");
           }
         }
-        if (server.arg(0) == "4"){
+        if (server.arg("id") == "4"){
           if (led4On){
-            server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'on'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"4\", \"state\": \"on\"}");
           }
           if (!led4On){
-            server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'off'\n}");
+            // Allow resources
+            server.sendHeader("Access-Control-Allow-Origin", "*");
+            server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+            server.sendHeader("Access-Control-Allow-Headers", "*");
+            server.send(200, "application/json", "{\"id\": \"4\", \"state\": \"off\"}");
           }
         }
       }
     }
     // PUT -> Write LED state
-    if (server.method() == 4){
-      if (server.argName(0) == "id"){
-        if (server.arg(0) == "1"){
-          if (server.argName(1) == "state"){
-            if (server.arg(1) == "on") {
-              server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'on'\n}");
+    if (server.method() == 4){      
+      if (server.hasArg("id")){
+        if (server.arg("id") == "1"){
+          if (server.hasArg("state")){
+            if (server.arg("state") == "on") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"1\", \"state\": \"on\"}");
               digitalWrite(led1, 1);
               led1On = true;
-            } else if (server.arg(1) == "off") {
-              server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'off'\n}");
+            } else if (server.arg("state") == "off") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"1\", \"state\": \"off\"}");
               digitalWrite(led1, 0);
               led1On = false;
             } 
           }
         }
-        if (server.arg(0) == "2"){
-          if (server.argName(1) == "state"){
-            if (server.arg(1) == "on") {
-              server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'on'\n}");
+        if (server.arg("id") == "2"){
+          if (server.hasArg("state")){
+            if (server.arg("state") == "on") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"2\", \"state\": \"on\"}");
               digitalWrite(led2, 1);
               led2On = true;
-            } else if (server.arg(1) == "off") {
-              server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'off'\n}");
+            } else if (server.arg("state") == "off") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"2\", \"state\": \"off\"}");
               digitalWrite(led2, 0);
               led2On = false;
             }
           }
         }
-        if (server.arg(0) == "3"){
-          if (server.argName(1) == "state"){
-            if (server.arg(1) == "on") {
-              server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'on'\n}");
+        if (server.arg("id") == "3"){
+          if (server.hasArg("state")){
+            if (server.arg("state") == "on") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"3\", \"state\": \"on\"}");
               digitalWrite(led3, 1);
               led3On = true;
-            } else if (server.arg(1) == "off") {
-              server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'off'\n}");
+            } else if (server.arg("state") == "off") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"3\", \"state\": \"off\"}");
               digitalWrite(led3, 0);
               led3On = false;
             }
           }
         }
-        if (server.arg(0) == "4"){
-          if (server.argName(1) == "state"){
-            if (server.arg(1) == "on") {
-              server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'on'\n}");
+        if (server.arg("id") == "4"){
+          if (server.hasArg("state")){
+            if (server.arg("state") == "on") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"4\", \"state\": \"on\"}");
               digitalWrite(led4, 1);
               led4On = true;
-            } else if (server.arg(1) == "off") {
-              server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'off'\n}");
+            } else if (server.arg("state") == "off") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"4\", \"state\": \"off\"}");
               digitalWrite(led4, 0);
               led4On = false;
             }
           }
         }
       }
+    }
+    if (server.method() == 7) {
+      // Allow resources
+      server.sendHeader("Access-Control-Allow-Origin", "*");
+      server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+      server.sendHeader("Access-Control-Allow-Headers", "*");
+      server.send(200, "text/json", "");
     }
   });
   
