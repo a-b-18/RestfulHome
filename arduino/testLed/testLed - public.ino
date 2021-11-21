@@ -43,7 +43,14 @@ const char *password = STAPSK;
 
 ESP8266WebServer server(80);
 
-const int led = 13;
+const int led1 = 14;
+boolean led1On;
+const int led2 = 12;
+boolean led2On;
+const int led3 = 13;
+boolean led3On;
+const int led4 = 15;
+boolean led4On;
 
 void handleNotFound() {
   String message = "File Not Found\n\n";
@@ -59,12 +66,27 @@ void handleNotFound() {
     message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
   }
 
+  // Send 404 response
   server.send(404, "text/plain", message);
 }
 
 void setup(void) {
-  pinMode(led, OUTPUT);
-  digitalWrite(led, 0);
+  pinMode(led1, OUTPUT);
+  digitalWrite(led1, 0);
+  led1On = false;
+
+  pinMode(led2, OUTPUT);
+  digitalWrite(led2, 0);
+  led2On = false;
+
+  pinMode(led3, OUTPUT);
+  digitalWrite(led3, 0);
+  led3On = false;
+
+  pinMode(led4, OUTPUT);
+  digitalWrite(led4, 0);
+  led4On = false;
+  
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -86,23 +108,108 @@ void setup(void) {
     Serial.println("MDNS responder started");
   }
 
-  server.on("/", []() {
-    Serial.println(server.argName(0));
-    Serial.println(server.arg(0));
-    if (server.method() == HTTP_POST && server.argName(0) == "led"){
-      if (server.arg(0) == "on") {
-        server.send(200, "text/plain", "LED turned on.");
-        digitalWrite(led, 1);
-      } else if (server.arg(0) == "off") {
-        server.send(200, "text/plain", "LED turned off.");
-        digitalWrite(led, 0);
-      } else {
-        server.send(406, "text/plain", "LED state not accepted.");
+  // LED interface starts here
+  server.on("/led", []() {
+    // GET -> Read LED state
+    if (server.method() == HTTP_GET){
+      if (server.argName(0) == "id"){
+        if (server.arg(0) == "1"){
+          if (led1On){
+            server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'on'\n}");
+          }
+          if (!led1On){
+            server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'off'\n}");
+          }
+        }
+        if (server.arg(0) == "2"){
+          if (led2On){
+            server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'on'\n}");
+          }
+          if (!led2On){
+            server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'off'\n}");
+          }
+        }
+        if (server.arg(0) == "3"){
+          if (led3On){
+            server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'on'\n}");
+          }
+          if (!led3On){
+            server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'off'\n}");
+          }
+        }
+        if (server.arg(0) == "4"){
+          if (led4On){
+            server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'on'\n}");
+          }
+          if (!led4On){
+            server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'off'\n}");
+          }
+        }
+      }
+    }
+    // PUT -> Write LED state
+    if (server.method() == 4){
+      if (server.argName(0) == "id"){
+        if (server.arg(0) == "1"){
+          if (server.argName(1) == "state"){
+            if (server.arg(1) == "on") {
+              server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'on'\n}");
+              digitalWrite(led1, 1);
+              led1On = true;
+            } else if (server.arg(1) == "off") {
+              server.send(200, "text/json", "{\n\t'id': '1',\n\t'state': 'off'\n}");
+              digitalWrite(led1, 0);
+              led1On = false;
+            } 
+          }
+        }
+        if (server.arg(0) == "2"){
+          if (server.argName(1) == "state"){
+            if (server.arg(1) == "on") {
+              server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'on'\n}");
+              digitalWrite(led2, 1);
+              led2On = true;
+            } else if (server.arg(1) == "off") {
+              server.send(200, "text/json", "{\n\t'id': '2',\n\t'state': 'off'\n}");
+              digitalWrite(led2, 0);
+              led2On = false;
+            }
+          }
+        }
+        if (server.arg(0) == "3"){
+          if (server.argName(1) == "state"){
+            if (server.arg(1) == "on") {
+              server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'on'\n}");
+              digitalWrite(led3, 1);
+              led3On = true;
+            } else if (server.arg(1) == "off") {
+              server.send(200, "text/json", "{\n\t'id': '3',\n\t'state': 'off'\n}");
+              digitalWrite(led3, 0);
+              led3On = false;
+            }
+          }
+        }
+        if (server.arg(0) == "4"){
+          if (server.argName(1) == "state"){
+            if (server.arg(1) == "on") {
+              server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'on'\n}");
+              digitalWrite(led4, 1);
+              led4On = true;
+            } else if (server.arg(1) == "off") {
+              server.send(200, "text/json", "{\n\t'id': '4',\n\t'state': 'off'\n}");
+              digitalWrite(led4, 0);
+              led4On = false;
+            }
+          }
+        }
       }
     }
   });
   
+  // Handle not found
   server.onNotFound(handleNotFound);
+
+  // Begin server
   server.begin();
   Serial.println("HTTP server started");
 }
