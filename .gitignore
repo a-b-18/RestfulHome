@@ -1575,3 +1575,9 @@ client/android/settings.gradle
 client/android/variables.gradle
 .gitignore
 arduino/testLed/testLed.ino
+client/android/app/src/main/res/*
+client/ios/App/App/Assets.xcassets/*
+client/resources/android/icon/*
+client/resources/android/splash/*
+client/resources/ios/*
+client/resources/windows/*

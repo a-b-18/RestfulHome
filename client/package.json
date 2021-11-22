@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "resources": "npx cordova-res ios --skip-config --copy && npx cordova-res android --skip-config --copy"
   },
   "private": true,
   "dependencies": {
