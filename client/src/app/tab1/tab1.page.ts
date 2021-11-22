@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class Tab1Page {
 
   model: any = {}
+  id: number;
 
   constructor(public arduinoService: ArduinoService) { }
 
@@ -18,7 +19,7 @@ export class Tab1Page {
   }
 
   read() {
-    this.arduinoService.read(this.model).subscribe(response => {
+    this.arduinoService.read(this.id).subscribe(response => {
       console.log(response);
     })
   }
@@ -27,6 +28,10 @@ export class Tab1Page {
     this.arduinoService.write(this.model).subscribe(response => {
       console.log(response);
     })
+  }
+
+  toggle(id: number) {
+    this.arduinoService.toggle(id);
   }
 
   clearStorage() {

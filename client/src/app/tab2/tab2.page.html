@@ -12,4 +12,34 @@
       <ion-title size="large">Tab 2</ion-title>
     </ion-toolbar>
   </ion-header>
+
+
+
+  <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="write()"
+  autocomplete="off">
+  <input
+      name="id"
+      [(ngModel)]="model.id"
+      class="form-control mr-sm-2"
+      type="text"
+      placeholder="Id">
+  <input
+      name="state"
+      [(ngModel)]="model.state"
+      class="form-control mr-sm-2"
+      type="text"
+      placeholder="State">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Write</button>
+  </form>
+
+  <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="read()"
+  autocomplete="off">
+  <input
+      name="id"
+      [(ngModel)]="id"
+      class="form-control mr-sm-2"
+      type="text"
+      placeholder="Id">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Read</button>
+  </form>
 </ion-content>
