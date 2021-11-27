@@ -1,3 +1,4 @@
+using API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -8,6 +9,6 @@ namespace API.Data
         {
             
         }
-        public DbSet<WeatherForecast>? WeatherForecasts { get; set; }
+        public DbSet<AppUser> Users { get; set; } = null!;
     }
 }
