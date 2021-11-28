@@ -13,11 +13,12 @@ export class ArduinoService {
   private currentArduinoSource = new ReplaySubject<ArduinoLed>(1);
   currentArduino$ = this.currentArduinoSource.asObservable();
   arduinoLed: ArduinoLed = {id: "1", state: "off"};
-  
+
   constructor(private http: HttpClient) { }
 
   write(model: any) {
-    return this.http.put(this.ledUrl + "?id=" + model.id + "&state=" + model.state, model).pipe(
+    console.log(model);
+    return this.http.put(model.url + "?id=" + model.id + "&state=" + model.state, "model").pipe(
       map((response: ArduinoLed) => {
         const led = response;
         if (led) {
@@ -29,19 +30,19 @@ export class ArduinoService {
 
   toggle(id: number) {
     // Read led state
-    this.read(id).subscribe(response => {
+    this.read({"url": this.ledUrl, "id": id}).subscribe(response => {
       console.log(response);
-      
+
       // Write opposite state
-      this.write({"id": id, "state": (this.arduinoLed.state==="off"?"on":"off")})
+      this.write({"url": this.ledUrl, "id": id, "state": (this.arduinoLed.state==="off"?"on":"off")})
       .subscribe(response => {
         console.log(response);
       })
     })
   }
 
-  read(id: number) {
-    return this.http.get(this.ledUrl + "?id=" + id).pipe(
+  read(model: any) {
+    return this.http.get(model.url + "?id=" + model.id).pipe(
       map((response: any) => {
         const led = response;
         if (led) {

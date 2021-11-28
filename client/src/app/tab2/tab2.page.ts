@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class Tab2Page {
 
   model: any = {}
-  id: number;
 
   constructor(public arduinoService: ArduinoService) { }
 
@@ -19,13 +18,20 @@ export class Tab2Page {
   }
 
   read() {
-    this.arduinoService.read(this.id).subscribe(response => {
+    this.arduinoService.read(this.model).subscribe(response => {
       console.log(response);
     })
   }
 
-  write() {
+  writeForm() {
     this.arduinoService.write(this.model).subscribe(response => {
+      console.log(response);
+    })
+  }
+
+  write(model: any) {
+    console.log(model);
+    this.arduinoService.write(model).subscribe(response => {
       console.log(response);
     })
   }

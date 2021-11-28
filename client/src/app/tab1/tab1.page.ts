@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page {
 
-  model: any = {}
+  //model: any = {}
   id: number;
 
   constructor(public arduinoService: ArduinoService) { }
@@ -19,13 +19,14 @@ export class Tab1Page {
   }
 
   read() {
-    this.arduinoService.read(this.id).subscribe(response => {
+    this.arduinoService.read({"url": 'http://192.168.1.31/led', "id": this.id}).subscribe(response => {
       console.log(response);
     })
   }
 
-  write() {
-    this.arduinoService.write(this.model).subscribe(response => {
+  write(model: any) {
+    console.log(model);
+    this.arduinoService.write(model).subscribe(response => {
       console.log(response);
     })
   }

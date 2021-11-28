@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Configure
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,14 +9,20 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Configure</ion-title>
     </ion-toolbar>
   </ion-header>
 
 
 
-  <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="write()"
+  <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="writeForm()"
   autocomplete="off">
+  <input
+      name="url"
+      [(ngModel)]="model.url"
+      class="form-control mr-sm-2"
+      type="text"
+      placeholder="Url">
   <input
       name="id"
       [(ngModel)]="model.id"
@@ -35,6 +41,12 @@
   <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="read()"
   autocomplete="off">
   <input
+      name="url"
+      [(ngModel)]="model.url"
+      class="form-control mr-sm-2"
+      type="text"
+      placeholder="Url">
+  <input
       name="id"
       [(ngModel)]="id"
       class="form-control mr-sm-2"
@@ -42,4 +54,28 @@
       placeholder="Id">
   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Read</button>
   </form>
+  <ion-grid flex>
+    <ion-col>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/rewrite', id: '1', state: 'on'})" expand="block" fill="clear" shape="round">
+          Reprogram Button 1
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/rewrite', id: '2', state: 'on'})" expand="block" fill="clear" shape="round">
+          Reprogram Button 2
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/rewrite', id: '3', state: 'on'})" expand="block" fill="clear" shape="round">
+          Reprogram Button 3
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/rewrite', id: '4', state: 'on'})" expand="block" fill="clear" shape="round">
+          Reprogram Button 4
+        </ion-button>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
 </ion-content>

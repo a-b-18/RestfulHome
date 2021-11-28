@@ -75,3 +75,4 @@ API/appsettings.json
 arduino/irServer/irServer.ino
 arduino/irServer/irServer.ino
 arduino/irServer_Private/irServer_Private.ino
+client/ios/*

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,33 +9,56 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-grid fixed>
+  <ion-grid flex>
     <ion-col>
-      <ion-row size="2"></ion-row>
-      <ion-button (click)="toggle(1)" expand="block" fill="clear" shape="round">
-        Toggle 1
-      </ion-button>
-      <ion-row size="2"></ion-row>
-      <ion-row size="2"></ion-row>
-      <ion-button (click)="toggle(2)" expand="block" fill="clear" shape="round">
-        Toggle 2
-      </ion-button>
-      <ion-row size="2"></ion-row>
-    </ion-col>
-    <ion-col>
-      <ion-row size="2"></ion-row>
-      <ion-button (click)="toggle(3)" expand="block" fill="clear" shape="round">
-        Toggle 3
-      </ion-button>
-      <ion-row size="2"></ion-row>
-      <ion-row size="2"></ion-row>
-      <ion-button (click)="toggle(4)" expand="block" fill="clear" shape="round">
-        Toggle 4
-      </ion-button>
-      <ion-row size="2"></ion-row>
+      <ion-row size="2">
+        <ion-button (click)="toggle(1)" expand="block" fill="clear" shape="round">
+          Toggle 1
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="toggle(2)" expand="block" fill="clear" shape="round">
+          Toggle 2
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="toggle(3)" expand="block" fill="clear" shape="round">
+          Toggle 3
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="toggle(4)" expand="block" fill="clear" shape="round">
+          Toggle 4
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/send', id: '5', state: 'on'})" expand="block" fill="clear" shape="round">
+          TV On/Off
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/send', id: '1', state: 'on'})" expand="block" fill="clear" shape="round">
+          Remote 1
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/send', id: '2', state: 'on'})" expand="block" fill="clear" shape="round">
+          Remote 2
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/send', id: '3', state: 'on'})" expand="block" fill="clear" shape="round">
+          Remote 3
+        </ion-button>
+      </ion-row>
+      <ion-row size="2">
+        <ion-button (click)="write({url: 'http://192.168.1.32/ir/send', id: '4', state: 'on'})" expand="block" fill="clear" shape="round">
+          Remote 4
+        </ion-button>
+      </ion-row>
     </ion-col>
   </ion-grid>
 </ion-content>

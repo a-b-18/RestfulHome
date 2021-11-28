@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://192.168.1.102:5001/api/',
-  arduinoLedUrl: 'http://192.168.1.100/led'
+  arduinoLedUrl: 'http://192.168.1.31/led'
 };
 
 /*
