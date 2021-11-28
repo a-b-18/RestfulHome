@@ -33,6 +33,7 @@ boolean send1;
 boolean send2;
 boolean send3;
 boolean send4;
+boolean sendTv;
 
 void handleNotFound() {
   String message = "File Not Found\n\n";
@@ -58,9 +59,17 @@ void handleNotFound() {
 const uint16_t kIrLed = 4;  // ESP8266 GPIO pin to use. Recommended: 4 (D2).
 
 IRsend irsend(kIrLed);  // Set the GPIO to be used to sending the message.
-uint16_t rawdata[99] = {};
+uint16_t rawdata1[99] = {};
+uint16_t rawdata2[99] = {};
+uint16_t rawdata3[99] = {};
+uint16_t rawdata4[99] = {};
+
+// Use below for non-volatile config
+int rawdataTvLength = 71;
+uint16_t rawdataTv[71] = {9030, 4367, 622, 489, 626, 485, 652, 464, 648, 464, 648, 464, 648, 464, 622, 489, 626, 485, 652, 1576, 648, 1576, 648, 1576, 626, 1597, 
+                        626, 1601, 648, 1576, 648, 464, 626, 1597, 626, 1601, 648, 464, 647, 1576, 652, 1601, 596, 489, 648, 464, 648, 464, 622,
+                        489, 626, 489, 622, 1602, 626, 485, 648, 464, 622, 1602, 652, 1576, 626, 1627, 597, 1601, 648, 41027, 9005, 2168, 626};
 int rawdataLength = 0;
-boolean latch = false;
 
 // ==================== start of TUNEABLE PARAMETERS ====================
 // An IR detector/demodulator is connected to GPIO pin 14
@@ -216,11 +225,6 @@ void setup() {
   });
 
 
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  
   // Infrared send starts here
   server.on("/ir/send", []() {
     // PUT -> Send Signal
@@ -274,6 +278,18 @@ void setup() {
             }
           }
         }
+        if (server.arg("id") == "5"){
+          if (server.hasArg("state")){
+            if (server.arg("state") == "on") {
+              // Allow resources
+              server.sendHeader("Access-Control-Allow-Origin", "*");
+              server.sendHeader("Access-Control-Allow-Methods", "GET, PUT");
+              server.sendHeader("Access-Control-Allow-Headers", "*");
+              server.send(200, "application/json", "{\"id\": \"5\", \"state\": \"on\"}");
+              sendTv = true;
+            }
+          }
+        }
       }
     }
     if (server.method() == 7) {
@@ -287,8 +303,7 @@ void setup() {
 
 
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   // Handle not found
   server.onNotFound(handleNotFound);
 
@@ -311,61 +326,84 @@ void loop() {
   // END HTTP SERVER
   
   // Check if the IR code has been received.
-  if (irrecv.decode(&results) && (rewrite1)) {
-    // Display a crude timestamp.
-    uint32_t now = millis();
-    Serial.printf(D_STR_TIMESTAMP " : %06u.%03u\n", now / 1000, now % 1000);
-    // Check if we got an IR message that was to big for our capture buffer.
-    if (results.overflow)
-      Serial.printf(D_WARN_BUFFERFULL "\n", kCaptureBufferSize);
-    // Display the library version the message was captured with.
-    Serial.println(D_STR_LIBRARY "   : v" _IRREMOTEESP8266_VERSION_ "\n");
-    // Display the tolerance percentage if it has been change from the default.
-    if (kTolerancePercentage != kTolerance)
-      Serial.printf(D_STR_TOLERANCE " : 1-> %d%%\n", kTolerancePercentage);
-    // Display the basic output of what we found.
-    Serial.print(" 2-> " + resultToHumanReadableBasic(&results));
-    // Display any extra A/C info if we have it.
-    String description = IRAcUtils::resultAcToString(&results);
-    if (description.length()) Serial.println(D_STR_MESGDESC ": 3-> " + description);
-    yield();  // Feed the WDT as the text output can take a while to print.
-#if LEGACY_TIMING_INFO
-    // Output legacy RAW timing info of the result.
-    Serial.println(" 4-> ", resultToTimingInfo(&results));
-    yield();  // Feed the WDT (again)
-#endif  // LEGACY_TIMING_INFO
-    // Output the results as source code
-    Serial.println(" 5-> " + resultToSourceCode(&results));
-    Serial.println();    // Blank line between entries
-    yield();             // Feed the WDT (again)
-
+  if (irrecv.decode(&results)) {
     // REWRITE HERE
 
     if (rewrite1){
       rawdataLength = results.rawlen;
-      Serial.println("Recorded signal of length ");
+      Serial.println("Recorded signal 1");
       for(int i=1; i < 100; i++){
-         rawdata[i-1] = results.rawbuf[i] * RAWTICK * RAWTICK / 2;
-         Serial.println("line " + String(i) + " " + String(rawdata[i-1]));    // RawData
+         rawdata1[i-1] = results.rawbuf[i] * RAWTICK * RAWTICK / 2;
       }
       Serial.println();    // Blank line between entries
       yield();
       rewrite1 = false;
     }
-    // REWRITE END HERE
+
+    if (rewrite2){
+      rawdataLength = results.rawlen;
+      Serial.println("Recorded signal 2");
+      for(int i=1; i < 100; i++){
+         rawdata2[i-1] = results.rawbuf[i] * RAWTICK * RAWTICK / 2;
+      }
+      Serial.println();    // Blank line between entries
+      yield();
+      rewrite2 = false;
+    }
+
+    if (rewrite3){
+      rawdataLength = results.rawlen;
+      Serial.println("Recorded signal 3");
+      for(int i=1; i < 100; i++){
+         rawdata3[i-1] = results.rawbuf[i] * RAWTICK * RAWTICK / 2;
+      }
+      Serial.println();    // Blank line between entries
+      yield();
+      rewrite3 = false;
+    }
+
+    if (rewrite4){
+      rawdataLength = results.rawlen;
+      Serial.println("Recorded signal 4");
+      for(int i=1; i < 100; i++){
+         rawdata4[i-1] = results.rawbuf[i] * RAWTICK * RAWTICK / 2;
+      }
+      Serial.println();    // Blank line between entries
+      yield();
+      rewrite4 = false;
+    }
+    // END REWRITE HERE
   }
 
   // SEND HERE
   if (send1){
     Serial.println("Replaying signal 1 ...");
-    irsend.sendRaw(rawdata, rawdataLength, 38);  // Send a raw data capture at 38kHz.
-    
-    for(int i=1; i < 100; i++){
-       Serial.println("line " + String(i) + " " + String(rawdata[i - 1]));    // RawData
-    }
-
+    irsend.sendRaw(rawdata1, rawdataLength, 38);  // Send a raw data capture at 38kHz.
     send1 = false;
-    delay(2000); 
+  }
+
+  if (send2){
+    Serial.println("Replaying signal 2 ...");
+    irsend.sendRaw(rawdata2, rawdataLength, 38);  // Send a raw data capture at 38kHz.
+    send2 = false;
+  }
+
+  if (send3){
+    Serial.println("Replaying signal 3 ...");
+    irsend.sendRaw(rawdata3, rawdataLength, 38);  // Send a raw data capture at 38kHz.
+    send3 = false;
+  }
+
+  if (send4){
+    Serial.println("Replaying signal 4 ...");
+    irsend.sendRaw(rawdata4, rawdataLength, 38);  // Send a raw data capture at 38kHz.
+    send4 = false;
+  }
+
+  if (sendTv){
+    Serial.println("Replaying signal 5 ...");
+    irsend.sendRaw(rawdataTv, rawdataTvLength, 38);  // Send a raw data capture at 38kHz.
+    sendTv = false;
   }
   // END SEND HERE
 }
